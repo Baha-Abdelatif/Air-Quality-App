@@ -1,14 +1,25 @@
 # Air-Quality-App
 
-Air Quality Application made with PHP
+## Air Quality Application made with PHP
 
 Fictitious application displaying information about air quality in a given area.
 Created with PHP as part of my preparation for the "Fullstack Web & Mobile Application Developer" professional qualification.
 
 ## Setup
 
-This site uses Php, Composer and Sass.
-It is therefore necessary to compile the SCSS code to obtain CSS code that can be understood by the browser.
+This site uses PHP, Composer and Sass.
+It is therefore necessary to compile the SCSS code by running:
+
+```bash
+
+sass custom.scss custom.css
+
+```
+
+In the root project folder, in order to obtain CSS code that can be understood by the browser.
+
+---
+
 You also need Composer on your server and run
 
 ```bash
@@ -17,7 +28,7 @@ composer install
 
 ```
 
-in the root project folder to install some dependencies.
+In the root project folder to install some dependencies.
 Finally, you need a web server (such as Apache or NGNINX) with PHP (min. 8.2.^) to run this application.
 
 ## Usage
