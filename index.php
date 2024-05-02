@@ -2,8 +2,9 @@
 require_once __DIR__ . "/header.html";
 ?>
 <main>
-  <?php
 
+  <?php
+  require_once __DIR__ . "/api.php";
 
   ?>
 </main>

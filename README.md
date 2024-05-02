@@ -7,9 +7,18 @@ Created with PHP as part of my preparation for the "Fullstack Web & Mobile Appli
 
 ## Setup
 
-This site uses php and Sass.
+This site uses Php, Composer and Sass.
 It is therefore necessary to compile the SCSS code to obtain CSS code that can be understood by the browser.
-You also need a web server (such as Apache or NGNINX) with PHP (min. 8.2.^) to run this application.
+You also need Composer on your server and run
+
+```bash
+
+composer install
+
+```
+
+in the root project folder to install some dependencies.
+Finally, you need a web server (such as Apache or NGNINX) with PHP (min. 8.2.^) to run this application.
 
 ## Usage
 
