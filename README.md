@@ -35,7 +35,7 @@ Finally, you need a web server (such as Apache or NGNINX) with PHP (min. 8.2.^) 
 
 Alternatively, you can view a demo at the following address:
 
-[http://baha-abdelatif.me/Air-Quality-App/](http://baha-abdelatif.me/Air-Quality-App/)
+[https://php-aqa-air-qualiy-app-a573e9e654e4.herokuapp.com/](https://php-aqa-air-qualiy-app-a573e9e654e4.herokuapp.com/)
 
 ## Contributions
 
