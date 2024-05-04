@@ -12,7 +12,7 @@ It is therefore necessary to compile the SCSS code by running:
 
 ```bash
 
-sass custom.scss custom.css
+sass ./styles/custom.scss ./styles/custom.css
 
 ```
 
