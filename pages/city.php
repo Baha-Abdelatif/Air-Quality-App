@@ -52,10 +52,29 @@ if (!empty($filename)) {
     $measurements = $stats[$label];
     if (count($measurements['pm10']) > 0) {
       $pm10[] = round(array_sum($measurements['pm10']) / count($measurements['pm10']), 2);
+    } else {
+      $pm10[] = 0;
     }
     if (count($measurements['pm25']) > 0) {
       $pm25[] = round(array_sum($measurements['pm25']) / count($measurements['pm25']), 2);
+    } else {
+      $pm25[] = 0;
     }
+  }
+  $datasets = [];
+  if (count($measurements['pm10']) > 0) {
+    $datasets[] = [
+      "label" => "AQI, PM10 in {$units['pm10']}",
+      "data" => $pm10,
+      "borderColor" => 'rgb(192, 75, 192)',
+    ];
+  }
+  if (count($measurements['pm25']) > 0) {
+    $datasets[] = [
+      "label" => "AQI, PM2.5 in {$units['pm25']}",
+      "data" => $pm25,
+      "borderColor" => 'rgb(75, 192, 192)',
+    ];
   }
 }
 ?>
@@ -83,30 +102,27 @@ if (!empty($filename)) {
         const labels = <?php echo json_encode($labels); ?>;
         const data = {
           labels: labels,
-          datasets: [{
-              label: 'pm25 µg/m³',
-              data: <?php echo json_encode($pm25); ?>,
-              fill: true,
-              borderColor: 'rgb(75, 192, 192)',
-              tension: 0.1
-            },
-            {
-              label: 'pm10 µg/m³',
-              data: <?php echo json_encode($pm10); ?>,
-              fill: true,
-              borderColor: 'rgb(192, 75, 192)',
-              tension: 0.1
-            }
-          ],
-          scales: {
-            y: {
-              suggestedMin: 0,
-            }
-          }
+          datasets: <?php echo json_encode($datasets); ?>,
+
         };
         const chart = new Chart(ctx, {
           type: 'line',
           data: data,
+          options: {
+            plugins: {
+              legend: {
+                display: true,
+                labels: {
+                  padding: 25,
+                }
+              }
+            },
+            scales: {
+              y: {
+                suggestedMin: 0,
+              }
+            }
+          }
         });
       })
     </script>
