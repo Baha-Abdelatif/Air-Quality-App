@@ -59,6 +59,39 @@ if (!empty($filename)) {
       <span> - <?php e($city) ?>, </span>
       <span><?php e($country) ?>:</span>
     </h2>
+    <div id="aqi-chart">
+      <canvas>Please enable Javascript & be sure your browser is up to date.</canvas>
+    </div>
+    <script src="../scripts/chart.umd.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const ctx = document.querySelector('#aqi-chart canvas');
+        const labels = ["January", "February", "March", "April", "May", "June", "July"];
+        const data = {
+          labels: labels,
+          datasets: [{
+            label: 'My First Dataset',
+            data: [65, 59, 80, 81, 56, 55, 40],
+            fill: false,
+            borderColor: 'rgb(75, 192, 192)',
+            tension: 0.1
+          }]
+        };
+        const chart = new Chart(ctx, {
+          type: 'line',
+          data: data,
+          options: {
+            onClick: (e) => {
+              const canvasPosition = getRelativePosition(e, chart);
+
+              // Substitute the appropriate scale IDs
+              const dataX = chart.scales.x.getValueForPixel(canvasPosition.x);
+              const dataY = chart.scales.y.getValueForPixel(canvasPosition.y);
+            }
+          }
+        });
+      })
+    </script>
     <div>
       <table>
         <thead>
