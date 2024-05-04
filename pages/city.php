@@ -44,6 +44,19 @@ if (!empty($filename)) {
     if (!isset($stats[$month])) $stats[$month] = ['pm25' => [], 'pm10' => []];
     $stats[$month][$result['parameter']][] = $result['value'];
   }
+  $labels = array_keys($stats);
+  sort($labels);
+  $pm25 = [];
+  $pm10 = [];
+  foreach ($labels as $label) {
+    $measurements = $stats[$label];
+    if (count($measurements['pm10']) > 0) {
+      $pm10[] = round(array_sum($measurements['pm10']) / count($measurements['pm10']), 2);
+    }
+    if (count($measurements['pm25']) > 0) {
+      $pm25[] = round(array_sum($measurements['pm25']) / count($measurements['pm25']), 2);
+    }
+  }
 }
 ?>
 
@@ -64,62 +77,39 @@ if (!empty($filename)) {
     </div>
     <script src="../scripts/chart.umd.js"></script>
     <script>
+      Chart.defaults.scales.linear.min = 0;
       document.addEventListener('DOMContentLoaded', () => {
         const ctx = document.querySelector('#aqi-chart canvas');
-        const labels = ["January", "February", "March", "April", "May", "June", "July"];
+        const labels = <?php echo json_encode($labels); ?>;
         const data = {
           labels: labels,
           datasets: [{
-            label: 'My First Dataset',
-            data: [65, 59, 80, 81, 56, 55, 40],
-            fill: false,
-            borderColor: 'rgb(75, 192, 192)',
-            tension: 0.1
-          }]
+              label: 'pm25 µg/m³',
+              data: <?php echo json_encode($pm25); ?>,
+              fill: true,
+              borderColor: 'rgb(75, 192, 192)',
+              tension: 0.1
+            },
+            {
+              label: 'pm10 µg/m³',
+              data: <?php echo json_encode($pm10); ?>,
+              fill: true,
+              borderColor: 'rgb(192, 75, 192)',
+              tension: 0.1
+            }
+          ],
+          scales: {
+            y: {
+              suggestedMin: 0,
+            }
+          }
         };
         const chart = new Chart(ctx, {
           type: 'line',
           data: data,
-          options: {
-            onClick: (e) => {
-              const canvasPosition = getRelativePosition(e, chart);
-
-              // Substitute the appropriate scale IDs
-              const dataX = chart.scales.x.getValueForPixel(canvasPosition.x);
-              const dataY = chart.scales.y.getValueForPixel(canvasPosition.y);
-            }
-          }
         });
       })
     </script>
-    <div>
-      <table>
-        <thead>
-          <tr>
-            <th>Month</th>
-            <th>pm25</th>
-            <th>pm10</th>
-          </tr>
-        </thead>
-        <tbody>
-          <?php foreach ($stats as $month => $measurements) : ?>
-            <tr>
-              <th><?php e($month); ?></th>
-              <td><?php e(round(array_sum($measurements['pm25']) / count($measurements['pm25']), 2) . ' ' . $units['pm25']); ?> </td>
-              <td><?php e(round(array_sum($measurements['pm10']) / count($measurements['pm10']), 2) . ' ' . $units['pm10']); ?> </td>
-            </tr>
-          <?php endforeach; ?>
-        </tbody>
-        <tfoot>
-          <tr>
-            <th>Month</th>
-            <th>pm25</th>
-            <th>pm10</th>
-          </tr>
-        </tfoot>
-      </table>
-      <!-- Fetched datas here -->
-    </div>
   <?php endif; ?>
 </main>
 
