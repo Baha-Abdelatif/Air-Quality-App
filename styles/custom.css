@@ -2,6 +2,11 @@ main {
   min-height: 65vh;
 }
 
+table {
+  margin: 1.5rem auto;
+  width: 100%;
+}
+
 footer .footer-icon {
   text-decoration: none;
 }/*# sourceMappingURL=custom.css.map */

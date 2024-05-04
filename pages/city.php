@@ -126,6 +126,38 @@ if (!empty($filename)) {
         });
       })
     </script>
+    <table>
+      <thead>
+        <tr>
+          <th>Month</th>
+          <th>PM 2.5 concentration</th>
+          <th>PM 10 concentration</th>
+        </tr>
+      </thead>
+      <tbody>
+        <?php foreach ($stats as $month => $measurements) : ?>
+          <tr>
+            <th><?php e($month); ?></th>
+            <td>
+              <?php if (count($measurements['pm25']) !== 0) : ?>
+                <?php e(round(array_sum($measurements['pm25']) / count($measurements['pm25']), 2)); ?>
+                <?php e($units['pm25']); ?>
+              <?php else : ?>
+                <i>No data available</i>
+              <?php endif; ?>
+            </td>
+            <td>
+              <?php if (count($measurements['pm10']) !== 0) : ?>
+                <?php e(round(array_sum($measurements['pm10']) / count($measurements['pm10']), 2)); ?>
+                <?php e($units['pm10']); ?>
+              <?php else : ?>
+                <i>No data available</i>
+              <?php endif; ?>
+            </td>
+          </tr>
+        <?php endforeach; ?>
+      </tbody>
+    </table>
   <?php endif; ?>
 </main>
 
